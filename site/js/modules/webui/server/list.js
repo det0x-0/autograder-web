@@ -9,7 +9,7 @@ function init() {
 function handlerList(path, params, context, container) {
     Render.setTabTitle('Server Courses');
 
-    Core.Routing.loadingStart(container);
+    Core.Routing.loadingStart(container, false);
 
     Autograder.Courses.list()
         .then(function(result) {
