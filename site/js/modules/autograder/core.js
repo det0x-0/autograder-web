@@ -5,6 +5,8 @@ const BASE_URL = '/api'
 const API_VESION = 'v03';
 const CREDENTIALS_KEY = 'AUTOGRADER.CREDENTIALS';
 
+const AG_WEB_SOURCE = 'edq-autograder-web';
+
 const REQUEST_USER_EMAIL_KEY = 'user-email';
 const REQUEST_USER_PASS_KEY = 'user-pass';
 
@@ -103,6 +105,10 @@ function sendRequest({
     if (!endpoint) {
         throw new Error("Endpoint not specified.")
     }
+
+    // Add in source information.
+    payload['source'] = AG_WEB_SOURCE;
+    payload['source-version'] = window?.EDQ_VERSION;
 
     let credentials = getCredentials();
     if (credentials) {

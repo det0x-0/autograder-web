@@ -23,6 +23,9 @@ jobs:
           node-version: '23.x'
           cache: 'npm'
 
+      - name: Check Version
+        run: ./scripts/check_version.sh
+
       - name: Build
         run: npm ci
 

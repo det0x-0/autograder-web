@@ -11,6 +11,12 @@ global.testData = {};
 const DEFAULT_ID_EMAIL = 'server-admin@test.edulinq.org';
 const DEFAULT_ID_CLEARTEXT = 'server-admin';
 
+// Ignore these keys when looking up test requests.
+const SKIP_LOOKUP_KEYS = [
+    'source',
+    'source-version',
+];
+
 // Replace JSDOM objects with Node versions (Jest makes these replacements).
 global.DecompressionStream = stream.DecompressionStream;
 
@@ -26,6 +32,10 @@ global.fetch = function(url, options = {}) {
     // Create arguments by lexicographically traversing the content.
     let args = {};
     for (const key of Object.keys(content).sort()) {
+        if (SKIP_LOOKUP_KEYS.includes(key)) {
+            continue
+        }
+
         args[key] = content[key];
 
         // Lower case Course ID to match test data format.
