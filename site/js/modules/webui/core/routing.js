@@ -34,9 +34,9 @@ const PATH_HISTORY = `${PATH_ASSIGNMENT}/history`;
 const PATH_USER_HISTORY = `${PATH_ASSIGNMENT}/user/history`;
 const PATH_PROXY_REGRADE = `${PATH_ASSIGNMENT}/proxy-regrade`;
 const PATH_PROXY_RESUBMIT = `${PATH_ASSIGNMENT}/proxy-resubmit`;
+const PATH_PROXY_SUBMIT = `${PATH_ASSIGNMENT}/proxy-submit`;
 const PATH_ANALYSIS_INDIVIDUAL = `${PATH_ASSIGNMENT}/analysis/individual`;
 const PATH_ANALYSIS_PAIRWISE = `${PATH_ASSIGNMENT}/analysis/pairwise`;
-
 const PATH_SERVER = 'server';
 const PATH_SERVER_CALL_API = `${PATH_SERVER}/call-api`;
 const PATH_SERVER_DOCS = `${PATH_SERVER}/docs`;
