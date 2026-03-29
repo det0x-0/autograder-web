@@ -95,6 +95,17 @@ function handlerAssignment(path, params, context, container) {
         ),
         new Render.Card(
             'assignment-action',
+            'Proxy Submit',
+            Core.Routing.formHashPath(Core.Routing.PATH_PROXY_SUBMIT, args),
+            {
+                minServerRole: Autograder.Common.SERVER_ROLE_USER,
+                minCourseRole: Autograder.Common.COURSE_ROLE_GRADER,
+                courseId: course.id,
+            },
+        ),
+
+        new Render.Card(
+            'assignment-action',
             'Individual Analysis',
             Core.Routing.formHashPath(Core.Routing.PATH_ANALYSIS_INDIVIDUAL, args),
             {
