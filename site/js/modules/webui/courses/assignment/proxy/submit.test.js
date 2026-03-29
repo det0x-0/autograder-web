@@ -5,11 +5,11 @@ import * as Core from '../../../core/index.js';
 import * as Render from '../../../render/index.js';
 import * as Test from '../../../test/index.js';
 
-test('Proxy Submit, Success', async function () {
+test('Proxy Submit, Success', async function() {
     await Test.loginUser('course-admin');
     await Test.navigate(
-        Core.Routing.PATH_PROXY_SUBMIT,
-        { [Core.Routing.PARAM_COURSE]: 'course101', [Core.Routing.PARAM_ASSIGNMENT]: 'hw0' },
+            Core.Routing.PATH_PROXY_SUBMIT,
+            {[Core.Routing.PARAM_COURSE]: 'course101', [Core.Routing.PARAM_ASSIGNMENT]: 'hw0'},
     );
 
     Test.checkPageBasics('hw0', 'assignment proxy submit');
@@ -21,8 +21,6 @@ test('Proxy Submit, Success', async function () {
     const fileObj = new File([fileContent], 'hw0_solution.py');
 
     document.querySelector('.input-field[data-name="files"] input')[Render.TEST_FILES_KEY] = [fileObj];
-
-    
     document.querySelector('.input-field #email').value = 'course-student@test.edulinq.org';
 
     await Test.submitTemplate();
@@ -32,11 +30,11 @@ test('Proxy Submit, Success', async function () {
     expect(results).toContain('Score');
 });
 
-test('Proxy Submit, User Not Found', async function () {
+test('Proxy Submit, User Not Found', async function() {
     await Test.loginUser('course-admin');
     await Test.navigate(
-        Core.Routing.PATH_PROXY_SUBMIT,
-        { [Core.Routing.PARAM_COURSE]: 'course101', [Core.Routing.PARAM_ASSIGNMENT]: 'hw0' },
+            Core.Routing.PATH_PROXY_SUBMIT,
+            {[Core.Routing.PARAM_COURSE]: 'course101', [Core.Routing.PARAM_ASSIGNMENT]: 'hw0'},
     );
 
     Test.checkPageBasics('hw0', 'assignment proxy submit');
@@ -48,7 +46,6 @@ test('Proxy Submit, User Not Found', async function () {
     const fileObj = new File([fileContent], 'hw0_solution.py');
 
     document.querySelector('.input-field[data-name="files"] input')[Render.TEST_FILES_KEY] = [fileObj];
-
     document.querySelector('.input-field #email').value = 'zzz@test.edulinq.org';
 
     await Test.submitTemplate();
@@ -57,4 +54,3 @@ test('Proxy Submit, User Not Found', async function () {
     expect(results).toContain('Grading Failed');
     expect(results).toContain('User not found.');
 });
-
