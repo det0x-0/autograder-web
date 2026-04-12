@@ -5,19 +5,18 @@ test('Proxy Regrade', async function() {
     await Test.loginUser('course-admin');
     await Test.navigate(
             Core.Routing.PATH_PROXY_REGRADE,
-            {[Core.Routing.PARAM_COURSE]: 'course101', [Core.Routing.PARAM_ASSIGNMENT]: 'hw0'},
+            {[Core.Routing.PARAM_COURSE]: 'course-languages', [Core.Routing.PARAM_ASSIGNMENT]: 'bash'},
     );
 
-    Test.checkPageBasics('hw0', 'assignment proxy regrade');
+    Test.checkPageBasics('bash', 'assignment proxy regrade');
 
     document.querySelector('.input-field #users').value = JSON.stringify([
-            "*",
-            "-course-admin@test.edulinq.org",
+            "student",
     ]);
 
     await Test.submitTemplate();
 
     let results = document.querySelector('.results-area code').innerHTML;
     let output = JSON.parse(results);
-    expect(output['resolved-users'].length).toEqual(4);
+    expect(output['resolved-users'].length).toEqual(1);
 });

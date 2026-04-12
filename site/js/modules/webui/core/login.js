@@ -42,7 +42,7 @@ function login(params, context, container, inputParams) {
 
     return Autograder.Users.Tokens.create(inputParams.email, inputParams.cleartext)
         .then(function(token) {
-            Autograder.setCredentials(inputParams.email, token['token-id'], token['token-cleartext']);
+            Autograder.setCredentials(inputParams.email, token['token-info']['id'], token['token-cleartext']);
             Routing.redirectHome();
             return `<p>Successfully logged in.</p>`;
         })

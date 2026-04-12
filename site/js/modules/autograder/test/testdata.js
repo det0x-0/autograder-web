@@ -14,22 +14,43 @@ let testAPIResponses = {};
 async function globalSetupLoadData() {
     fs.mkdirSync(TEMP_DIR, {recursive: true});
 
-    const text = fs.readFileSync(path.join('site', 'js', 'modules', 'autograder', 'test', 'api_test_data.json'), 'utf8');
-    let exchanges = JSON.parse(text);
+    const dirents = fs.readdirSync(path.join('testdata', 'autograder-testdata', 'testdata', 'http'), {withFileTypes: true, recursive: true});
 
-    for (const [key, value] of Object.entries(exchanges)) {
-        let keyData = JSON.parse(key);
-        if (keyData.endpoint === 'users/tokens/create') {
-            let userEmail = keyData['arguments']['user-email'];
-            let displayName = userEmail.split('@')[0];
-
-            cleanTokensCreateTestData(exchanges, key, displayName, value);
-            createTokensDeleteTestData(exchanges, userEmail, displayName, value.output['token-cleartext']);
-            createTokensDeleteTestData(exchanges, userEmail, displayName);
+    let responses = {};
+    for (const dirent of dirents) {
+        if (!dirent.isFile()) {
+            continue;
         }
+
+        const direntPath = path.join(dirent.parentPath, dirent.name);
+        const text = fs.readFileSync(direntPath, 'utf8');
+        let data = JSON.parse(text);
+
+        let args = JSON.parse(data.parameters.content);
+
+        let endpoint = data.url_path;
+
+        let files = [];
+        for (const fileInfo of data?.files) {
+            files.push(`__DATA_DIR__(${fileInfo.name})`);
+        }
+
+        // If this is a token delete, modify it to target only test tokens.
+        if (endpoint == 'api/v03/users/tokens/delete') {
+            args['token-id'] = 'test-token-id';
+        }
+
+        let keyData = {
+            'arguments': args,
+            'endpoint': endpoint,
+            'files': files,
+        };
+        let key = JSON.stringify(keyData);
+
+        responses[key] = JSON.parse(data.response_body);
     }
 
-    const responseText = JSON.stringify(exchanges);
+    const responseText = JSON.stringify(responses);
     fs.writeFileSync(RESPONSES_PATH, responseText);
 }
 
@@ -42,10 +63,10 @@ function cleanTokensCreateTestData(exchanges, key, displayName, value) {
 }
 
 // Generate test data for users/tokens/delete for the user and cleartext combination.
-function createTokensDeleteTestData(exchanges, userEmail, cleartext, tokenId = '<TOKEN_ID>') {
+function createTokensDeleteTestData(exchanges, userEmail, cleartext, tokenID = '<TOKEN_ID>') {
     let endpoint = 'users/tokens/delete';
     let args = {
-        'token-id': tokenId,
+        'token-id': tokenID,
         'user-email': userEmail,
         'user-pass': Util.sha256(cleartext),
     };
@@ -61,7 +82,7 @@ function createTokensDeleteTestData(exchanges, userEmail, cleartext, tokenId = '
         'endpoint': endpoint,
         'module_name': 'autograder.api.users.tokens.delete',
         'arguments': {
-            'token-id': tokenId,
+            'token-id': tokenID,
         },
         'output': {
             'found': true,

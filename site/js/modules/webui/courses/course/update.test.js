@@ -8,7 +8,6 @@ test('Course Update', async function() {
         '"created": false',
         '"updated": true',
         'course-admin@test.edulinq.org',
-        'autograder.course101.hw0',
         'submission.py',
     ];
 
@@ -16,6 +15,8 @@ test('Course Update', async function() {
     await Test.navigate(Core.Routing.PATH_COURSE_UPDATE, {[Core.Routing.PARAM_COURSE]: targetCourse});
 
     Test.checkPageBasics(targetCourse, 'update course');
+
+    document.querySelector('.input-field #skipBuildImages').checked = true;
 
     await Test.submitTemplate();
 

@@ -9,16 +9,16 @@ test('Proxy Submit, Success', async function() {
     await Test.loginUser('course-admin');
     await Test.navigate(
             Core.Routing.PATH_PROXY_SUBMIT,
-            {[Core.Routing.PARAM_COURSE]: 'course101', [Core.Routing.PARAM_ASSIGNMENT]: 'hw0'},
+            {[Core.Routing.PARAM_COURSE]: 'course-languages', [Core.Routing.PARAM_ASSIGNMENT]: 'bash'},
     );
 
-    Test.checkPageBasics('hw0', 'assignment proxy submit');
+    Test.checkPageBasics('bash', 'assignment proxy submit');
 
     const fileContent = fs.readFileSync(
-        path.join('site', 'js', 'modules', 'autograder', 'test', 'data', 'hw0_solution.py'),
+        path.join('testdata', 'autograder-testdata', 'autograder-server', 'testdata', 'course-languages', 'bash', 'test-submissions', 'solution', 'assignment.sh'),
         'utf8'
     );
-    const fileObj = new File([fileContent], 'hw0_solution.py');
+    const fileObj = new File([fileContent], 'assignment.sh');
 
     document.querySelector('.input-field[data-name="files"] input')[Render.TEST_FILES_KEY] = [fileObj];
     document.querySelector('.input-field #email').value = 'course-student@test.edulinq.org';
@@ -34,19 +34,19 @@ test('Proxy Submit, User Not Found', async function() {
     await Test.loginUser('course-admin');
     await Test.navigate(
             Core.Routing.PATH_PROXY_SUBMIT,
-            {[Core.Routing.PARAM_COURSE]: 'course101', [Core.Routing.PARAM_ASSIGNMENT]: 'hw0'},
+            {[Core.Routing.PARAM_COURSE]: 'course-languages', [Core.Routing.PARAM_ASSIGNMENT]: 'bash'},
     );
 
-    Test.checkPageBasics('hw0', 'assignment proxy submit');
+    Test.checkPageBasics('bash', 'assignment proxy submit');
 
     const fileContent = fs.readFileSync(
-        path.join('site', 'js', 'modules', 'autograder', 'test', 'data', 'hw0_solution.py'),
+        path.join('testdata', 'autograder-testdata', 'autograder-server', 'testdata', 'course-languages', 'bash', 'test-submissions', 'solution', 'assignment.sh'),
         'utf8'
     );
-    const fileObj = new File([fileContent], 'hw0_solution.py');
+    const fileObj = new File([fileContent], 'assignment.sh');
 
     document.querySelector('.input-field[data-name="files"] input')[Render.TEST_FILES_KEY] = [fileObj];
-    document.querySelector('.input-field #email').value = 'zzz@test.edulinq.org';
+    document.querySelector('.input-field #email').value = 'ZZZ@test.edulinq.org';
 
     await Test.submitTemplate();
 

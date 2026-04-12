@@ -31,6 +31,9 @@
             "index.js"
         ],
         "globalSetup": "<rootDir>/site/js/modules/autograder/test/testdata.js",
+        "roots": [
+            "site"
+        ],
         "setupFilesAfterEnv": [
             "<rootDir>/site/js/modules/autograder/test/setup.js",
             "<rootDir>/site/js/modules/webui/test/setup.js"

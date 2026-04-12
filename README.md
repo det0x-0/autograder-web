@@ -6,6 +6,20 @@ This GUI can either be embedded into the Autograder Server to be served statical
 (which can be seen in the [official Autograder Server repo](https://github.com/edulinq/autograder-server/tree/main/internal/api/static)),
 or hosted independently and pointed towards an Autograder Server instance.
 
+## Cloning
+
+This repository includes submodules.
+To fetch these submodules on clone, add the `--recurse-submodules` flag.
+For example:
+```sh
+git clone --recurse-submodules git@github.com:edulinq/autograder-web.git
+```
+
+To fetch the submodules after cloning, you can use:
+```sh
+git submodule update --init --recursive
+```
+
 ## Development / Testing
 
 As this project is mostly vanilla HTML/JS/CSS, there are not too many complex environmental features to be wary of.
@@ -40,14 +54,9 @@ npm test
 
 ### Test Data
 
-Test data for this project is provided by the [autograder-py](https://github.com/edulinq/autograder-py) repository.
-This repo maintains a fairly expansive set of test API requests and responses.
-From that repo, we generate the test data using something like:
-```sh
-./.ci/dump_api_test_data.py > ../autograder-web/js/modules/autograder/test/api_test_data.json```
-```
-
-Note that the pathing assumes that these two repos are adjacent and we are inside the autograder-py repository.
+Test data for this project is provided by the [autograder-testdata](https://github.com/edulinq/autograder-testdata) repository.
+This repo maintains common test data for any autograder-based project.
+The `autograder-testdata` repo is set as a submodule of this repository at [testdata/autograder-testdata](testdata/autograder-testdata).
 
 ## Test Server
 

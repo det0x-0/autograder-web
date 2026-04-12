@@ -5,15 +5,11 @@ import stream from 'node:stream/web';
 import * as Common from '../common/index.js';
 import * as Core from '../core.js';
 import * as Testdata from './testdata.js';
+import * as Util from '../util/index.js'
 
 const DEFAULT_ID_EMAIL = 'server-admin@test.edulinq.org';
-const DEFAULT_ID_CLEARTEXT = 'server-admin';
-
-// Ignore these keys when looking up test requests.
-const SKIP_LOOKUP_KEYS = [
-    'source',
-    'source-version',
-];
+const DEFAULT_ID_NAME = 'server-admin';
+const DEFAULT_ID_TOKEN_ID = 'test-token-id';
 
 // Replace JSDOM objects with Node versions (Jest makes these replacements).
 global.DecompressionStream = stream.DecompressionStream;
@@ -24,22 +20,20 @@ global.alert = function(message) {
 
 // Mock fetch to use our test data.
 global.fetch = function(url, options = {}) {
-    let endpoint = url.replace(/^\/api\/v\d+\//, '');
+    let endpoint = url.replace(/^\//, '');
     let content = JSON.parse(options.body.get('content'));
 
-    // Create arguments by lexicographically traversing the content.
-    let args = {};
+    // Overwrite some args for testing.
+    content['source'] = 'testing';
+    content['source-version'] = '0.0.0';
+
+    // Overrite password (token) with the known password in the test data.
+    content['user-pass'] = Util.sha256(content['user-email'].replace('@test.edulinq.org', ''));
+
+    // Sort arg keys.
+    let sortedArgs = {};
     for (const key of Object.keys(content).sort()) {
-        if (SKIP_LOOKUP_KEYS.includes(key)) {
-            continue
-        }
-
-        args[key] = content[key];
-
-        // Lower case Course ID to match test data format.
-        if (key === 'course-id') {
-            args[key] = args[key].toLowerCase();
-        }
+        sortedArgs[key] = content[key];
     }
 
     // Extract files from response body object,
@@ -55,29 +49,17 @@ global.fetch = function(url, options = {}) {
     }
 
     let keyData = {
-        'arguments': args,
+        'arguments': sortedArgs,
         'endpoint': endpoint,
         'files': files,
     };
     let key = JSON.stringify(keyData);
 
-    let responseContent = Testdata.testAPIResponses[key];
-    if (!responseContent) {
+    let response = Testdata.testAPIResponses[key];
+    if (!response) {
         console.error(keyData);
         throw new Error(`Unknown API key: '${key}'.`);
     }
-
-    let response = {
-        'id': '00000000-0000-0000-0000-000000000000',
-        'locator': '',
-        'server-version': '0.0.0',
-        'start-timestamp': Common.getTimestampNow(),
-        'end-timestamp': Common.getTimestampNow(),
-        'status': 200,
-        'success': true,
-        'message': responseContent.message ?? '',
-        'content': responseContent.output,
-    };
 
     return Promise.resolve({
         json: function() {
@@ -102,7 +84,7 @@ function loadHTML() {
 
 // Load the default testing identity.
 function loadAPITestIdentity() {
-    Core.setCredentials(DEFAULT_ID_EMAIL, '<TOKEN_ID>', DEFAULT_ID_CLEARTEXT);
+    Core.setCredentials(DEFAULT_ID_EMAIL, DEFAULT_ID_TOKEN_ID, DEFAULT_ID_NAME);
 }
 
 beforeAll(function() {

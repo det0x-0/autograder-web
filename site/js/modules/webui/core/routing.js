@@ -21,7 +21,7 @@ const PATH_LOGOUT = 'logout';
 
 const PATH_COURSE = 'course';
 const PATH_COURSES = 'courses';
-const PATH_COURSE_USERS_LIST = `${PATH_COURSE}/list`;
+const PATH_COURSE_USERS_LIST = `${PATH_COURSE}/users/list`;
 const PATH_COURSE_UPDATE = `${PATH_COURSE}/update`;
 const PATH_ASSIGNMENT = `${PATH_COURSE}/assignment`;
 const PATH_ASSIGNMENT_FETCH_COURSE_SCORES = `${PATH_ASSIGNMENT}/fetch/course/scores`;

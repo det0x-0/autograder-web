@@ -5,10 +5,10 @@ test('Proxy Resubmit, Success', async function() {
     await Test.loginUser('course-admin');
     await Test.navigate(
             Core.Routing.PATH_PROXY_RESUBMIT,
-            {[Core.Routing.PARAM_COURSE]: 'course101', [Core.Routing.PARAM_ASSIGNMENT]: 'hw0'},
+            {[Core.Routing.PARAM_COURSE]: 'course-languages', [Core.Routing.PARAM_ASSIGNMENT]: 'bash'},
     );
 
-    Test.checkPageBasics('hw0', 'assignment proxy resubmit');
+    Test.checkPageBasics('bash', 'assignment proxy resubmit');
 
     document.querySelector('.input-field #email').value = 'course-student@test.edulinq.org';
 
@@ -23,12 +23,12 @@ test('Proxy Resubmit, User Not Found', async function() {
     await Test.loginUser('course-admin');
     await Test.navigate(
             Core.Routing.PATH_PROXY_RESUBMIT,
-            {[Core.Routing.PARAM_COURSE]: 'course101', [Core.Routing.PARAM_ASSIGNMENT]: 'hw0'},
+            {[Core.Routing.PARAM_COURSE]: 'course-languages', [Core.Routing.PARAM_ASSIGNMENT]: 'bash'},
     );
 
-    Test.checkPageBasics('hw0', 'assignment proxy resubmit');
+    Test.checkPageBasics('bash', 'assignment proxy resubmit');
 
-    document.querySelector('.input-field #email').value = 'zzz@test.edulinq.org';
+    document.querySelector('.input-field #email').value = 'ZZZ@test.edulinq.org';
 
     await Test.submitTemplate();
 
