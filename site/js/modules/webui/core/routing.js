@@ -42,6 +42,7 @@ const PATH_SERVER_CALL_API = `${PATH_SERVER}/call-api`;
 const PATH_SERVER_DOCS = `${PATH_SERVER}/docs`;
 const PATH_SERVER_COURSES_LIST = `${PATH_SERVER}/courses/list`;
 const PATH_SERVER_USERS_LIST = `${PATH_SERVER}/users/list`;
+const PATH_LMS_UPLOAD_SCORES = `${PATH_COURSE}/lms/upload/scores`;
 
 const NAV_COURSES = 'Courses';
 const NAV_EMPTY = '';
@@ -430,6 +431,7 @@ export {
     PATH_EMAIL,
     PATH_COURSE_USERS_LIST,
     PATH_COURSE_UPDATE,
+    PATH_LMS_UPLOAD_SCORES,
     PATH_SUBMIT,
     PATH_SUBMIT_REMOVE,
     PATH_PEEK,
