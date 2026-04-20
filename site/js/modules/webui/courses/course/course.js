@@ -58,6 +58,19 @@ function handlerCourse(path, params, context, container) {
         },
     ));
 
+    actionCards.push(new Render.Card(
+        "course-action",
+        "Upload LMS Scores",
+        Core.Routing.formHashPath(Core.Routing.PATH_COURSE_LMS_UPLOAD_SCORES, {
+            [Core.Routing.PARAM_COURSE]: course.id,
+        }),
+        {
+            minServerRole: Autograder.Common.SERVER_ROLE_USER,
+            minCourseRole: Autograder.Common.COURSE_ROLE_GRADER,
+            courseId: course.id,
+        },
+    ));
+
      actionCards.push(new Render.Card(
         "course-action",
         "Update Course",

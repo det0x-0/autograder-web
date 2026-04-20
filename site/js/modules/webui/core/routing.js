@@ -23,6 +23,7 @@ const PATH_COURSE = 'course';
 const PATH_COURSES = 'courses';
 const PATH_COURSE_USERS_LIST = `${PATH_COURSE}/users/list`;
 const PATH_COURSE_UPDATE = `${PATH_COURSE}/update`;
+const PATH_COURSE_LMS_UPLOAD_SCORES = `${PATH_COURSE}/lms/upload/scores`;
 const PATH_ASSIGNMENT = `${PATH_COURSE}/assignment`;
 const PATH_ASSIGNMENT_FETCH_COURSE_SCORES = `${PATH_ASSIGNMENT}/fetch/course/scores`;
 const PATH_ASSIGNMENT_FETCH_USER_ATTEMPT = `${PATH_ASSIGNMENT}/fetch/user/attempt`;
@@ -442,6 +443,7 @@ export {
     PATH_SERVER_DOCS,
     PATH_SERVER_COURSES_LIST,
     PATH_SERVER_USERS_LIST,
+    PATH_COURSE_LMS_UPLOAD_SCORES,
     PATH_USER_HISTORY,
 
     NAV_COURSES,
